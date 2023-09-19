@@ -1,6 +1,7 @@
 require("../mongoDB")
 
 const Restaurant = require("../Models/restaurant.model.js");
+const User = require("../Models/user.model.js")
 
 const createRestaurant = async(restaurant) => {
   try{
@@ -97,28 +98,29 @@ const filterRestaurantsByRating = async(gteRating)=>{
 const addDishToMenu = async(restaurantId,dish)=>{
   try{
     const updatedRestaurant = await Restaurant.findByIdAndUpdate(restaurantId,{$push:{menu:dish}},{new:true});
-    console.log(updatedRestaurant)
     return updatedRestaurant;
   }catch(error){
-    console.error("Failed to update restaurants")
+    throw new Error("Failed to update menu")
   }
 }
 const removeDishFromMenu = async(restaurantId,dishName)=>{
   try{
     const updatedRestaurant = await Restaurant.findByIdAndUpdate(restaurantId,{$pull:{menu:{name:dishName}}},{new:true});
-    console.log(updatedRestaurant)
     return updatedRestaurant;
   }catch(error){
-    console.error("Failed to update restaurants")
+    throw new Error("Failed to update menu")
   }
 }
 const addRestaurantReviewAndRating = async(restaurantId,review)=>{
   try{
-    const updatedRestaurant = await Restaurant.findByIdAndUpdate(restaurantId,{$push:{reviews:review}}).populate("reviews.user","fullname username");
+    const updatedRestaurant = await Restaurant.findByIdAndUpdate(restaurantId,{$push:{reviews:review}},{new:true}).populate("reviews.user");
+    if(!updatedRestaurant){
+    throw new Error("Failed to add review")
+    }
     console.log(updatedRestaurant)
     return updatedRestaurant;
   }catch(error){
-    console.error("Failed to update restaurants")
+    throw error;
   }
 }
 
@@ -134,4 +136,4 @@ const getUserReviewsForRestaurant = async(restaurantId,username)=>{
   }catch(error){console.error("Faied to retrieve user review")}
 }
 
-module.exports = {createRestaurant,readRestaurant,readAllRestaurant,readRestaurantsByCuisine,updateRestaurant,deleteRestaurant,searchRestaurantsByLocation,filterRestaurantsByRating,addDishToMenu,addRestaurantReviewAndRating,getUserReviewsForRestaurant}
+module.exports = {createRestaurant,readRestaurant,readAllRestaurant,readRestaurantsByCuisine,updateRestaurant,deleteRestaurant,searchRestaurantsByLocation,filterRestaurantsByRating,addDishToMenu,addRestaurantReviewAndRating,getUserReviewsForRestaurant,removeDishFromMenu}

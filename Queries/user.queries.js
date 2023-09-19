@@ -1,4 +1,4 @@
-require("./mongoDB");
+require("../mongoDB");
 const User = require("../Models/user.model.js");
 
 const addUser = async(userData)=>{
