@@ -1,4 +1,4 @@
-const {createRestaurant,readRestaurant,readRestaurantsByCuisine,updateRestaurant,deleteRestaurant,searchRestaurantsByLocation,filterRestaurantsByRating,addDishToMenu,removeDishFromMenu,addRestaurantReviewAndRating} = require("../Queries/restaurant.queries.js");
+const {createRestaurant,readRestaurant,readRestaurantsByCuisine,updateRestaurant,deleteRestaurant,searchRestaurantsByLocation,filterRestaurantsByRating,addDishToMenu,removeDishFromMenu,addRestaurantReviewAndRating,getUserReviewsForRestaurant} = require("../Queries/restaurant.queries.js");
 
 const createRestaurantController = async(req,res)=>{
   const {body} = req;
@@ -99,5 +99,14 @@ const addRestaurantReviewAndRatingController = async(req,res)=>{
     res.status(500).json({error:error.message});
   }
 }
+const getUserReviewsForRestaurantController = async(req,res)=>{
+  const {restaurantId} = req.params
+  try{
+    const restaurant = await getUserReviewsForRestaurant(restaurantId)
+    res.status(200).json({message:"Reviews found",reviews:restaurant});
+  }catch(error){
+    res.status(500).json({error:error.message});
+  }
+}
 
-module.exports = {createRestaurantController,readRestaurantController,readRestaurantsByCuisineController,updateRestaurantController,deleteRestaurantController,searchRestaurantsByLocationController,filterRestaurantsByRatingController,addDishToMenuController,removeDishFromMenuController,addRestaurantReviewAndRatingController}
+module.exports = {createRestaurantController,readRestaurantController,readRestaurantsByCuisineController,updateRestaurantController,deleteRestaurantController,searchRestaurantsByLocationController,filterRestaurantsByRatingController,addDishToMenuController,removeDishFromMenuController,addRestaurantReviewAndRatingController,getUserReviewsForRestaurantController}

@@ -124,16 +124,13 @@ const addRestaurantReviewAndRating = async(restaurantId,review)=>{
   }
 }
 
-const getUserReviewsForRestaurant = async(restaurantId,username)=>{
+const getUserReviewsForRestaurant = async(restaurantId)=>{
   try{
     const {reviews} = await Restaurant.findById(restaurantId).populate("reviews.user")
-    const filteredReviews = reviews.filter(({user})=>user.username === username)
-    if(!filteredReviews.length){
-      throw new Error("No result")
-    }
-    console.log(filteredReviews)
-    return filteredReviews
-  }catch(error){console.error("Faied to retrieve user review")}
+    return reviews
+  }catch(error){
+    throw new Error("Faied to retrieve user reviews")
+  }
 }
 
 module.exports = {createRestaurant,readRestaurant,readAllRestaurant,readRestaurantsByCuisine,updateRestaurant,deleteRestaurant,searchRestaurantsByLocation,filterRestaurantsByRating,addDishToMenu,addRestaurantReviewAndRating,getUserReviewsForRestaurant,removeDishFromMenu}

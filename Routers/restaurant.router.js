@@ -1,11 +1,12 @@
 const express = require("express");
 const restaurantRouter = express.Router()
-const {createRestaurantController,readRestaurantController,readRestaurantsByCuisineController,updateRestaurantController,deleteRestaurantController,searchRestaurantsByLocationController,filterRestaurantsByRatingController,addDishToMenuController,removeDishFromMenuController,addRestaurantReviewAndRatingController} = require("../Controllers/restaurant.controller.js")
+const {createRestaurantController,readRestaurantController,readRestaurantsByCuisineController,updateRestaurantController,deleteRestaurantController,searchRestaurantsByLocationController,filterRestaurantsByRatingController,addDishToMenuController,removeDishFromMenuController,addRestaurantReviewAndRatingController,getUserReviewsForRestaurantController} = require("../Controllers/restaurant.controller.js")
 
 restaurantRouter.get("/search",searchRestaurantsByLocationController);
 restaurantRouter.get("/:restaurantName",readRestaurantController);
 restaurantRouter.get("/cusine/:cusineType",readRestaurantsByCuisineController);
 restaurantRouter.get("/rating/:minRating",filterRestaurantsByRatingController);
+restaurantRouter.get("/:restaurantId/reviews",getUserReviewsForRestaurantController);
 
 restaurantRouter.post("/",createRestaurantController);
 restaurantRouter.post("/:restaurantId",updateRestaurantController);
