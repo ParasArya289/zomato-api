@@ -8,7 +8,7 @@ const addUser = async(userData)=>{
     console.log(savedUser);
     return savedUser;
   }catch(error){
-    console.error("Unable to add user")
+    throw new Error("Unable to add user")
   }
 }
 

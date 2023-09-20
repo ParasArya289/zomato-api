@@ -117,7 +117,6 @@ const addRestaurantReviewAndRating = async(restaurantId,review)=>{
     if(!updatedRestaurant){
     throw new Error("Failed to add review")
     }
-    console.log(updatedRestaurant)
     return updatedRestaurant;
   }catch(error){
     throw error;

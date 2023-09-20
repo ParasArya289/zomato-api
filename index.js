@@ -7,6 +7,10 @@ app.use(express.json());
 
 app.use("/restaurants",restaurantRouter);
 
+app.get('/', (_, res) => {
+  res.send('Zomato-api')
+});
+
 //Global error handler
 app.use((_,__,___,____)=>{
   res.status(500).json({error:"Something went wrong!"})
@@ -16,10 +20,6 @@ app.use((_,__,___,____)=>{
 app.use((_,res)=>{
   res.status(404).json({error:"Requested API Endpoint does not exist!"})
 })
-
-app.get('/', (_, res) => {
-  res.send('Zomato-api')
-});
 
 app.listen(3000, () => {
   console.log('server started');
